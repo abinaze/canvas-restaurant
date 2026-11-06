@@ -1,0 +1,30 @@
+import { lazy } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { MotionConfig } from "framer-motion";
+import { Layout } from "./components/Layout";
+import { CartProvider } from "./context/CartContext";
+import { ToastProvider } from "./context/ToastContext";
+import Home from "./pages/Home";
+
+
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+export default function App() {
+  return (
+    <MotionConfig reducedMotion="user">
+      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+        <ToastProvider>
+          <CartProvider>
+              <Routes>
+                <Route element={<Layout />}>
+                  <Route index element={<Home />} />
+
+                  <Route path="*" element={<NotFound />} />
+                </Route>
+              </Routes>
+          </CartProvider>
+        </ToastProvider>
+      </BrowserRouter>
+    </MotionConfig>
+  );
+}
