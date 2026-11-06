@@ -5,6 +5,7 @@ import { Featured } from "../sections/Featured";
 import { Story } from "../sections/Story";
 import { MenuPreview } from "../sections/MenuPreview";
 import { GalleryPreview } from "../sections/GalleryPreview";
+import { ReviewsPreview } from "../sections/ReviewsPreview";
 import { ReserveBand } from "../sections/ReserveBand";
 import { Location } from "../sections/Location";
 
@@ -19,6 +20,7 @@ export default function Home() {
       <Story />
       <MenuPreview />
       <GalleryPreview />
+      <ReviewsPreview />
       <ReserveBand />
       <Location />
     </>

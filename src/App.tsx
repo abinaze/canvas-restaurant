@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 
 const Menu = lazy(() => import("./pages/Menu"));
 const Gallery = lazy(() => import("./pages/Gallery"));
+const Reviews = lazy(() => import("./pages/Reviews"));
 const Reserve = lazy(() => import("./pages/Reserve"));
 const Cart = lazy(() => import("./pages/Cart"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -23,6 +24,7 @@ export default function App() {
                   <Route index element={<Home />} />
                   <Route path="menu" element={<Menu />} />
                   <Route path="gallery" element={<Gallery />} />
+                  <Route path="reviews" element={<Reviews />} />
                   <Route path="reserve" element={<Reserve />} />
                   <Route path="cart" element={<Cart />} />
                   <Route path="*" element={<NotFound />} />
