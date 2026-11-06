@@ -1,6 +1,7 @@
 import { usePageMeta } from "../hooks/usePageMeta";
 import { routes } from "../data/routes";
 import { Hero } from "../sections/Hero";
+import { Featured } from "../sections/Featured";
 
 const meta = routes[0];
 
@@ -9,6 +10,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <Featured />
     </>
   );
 }
