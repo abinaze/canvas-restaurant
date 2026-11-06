@@ -6,7 +6,7 @@ import { CartProvider } from "./context/CartContext";
 import { ToastProvider } from "./context/ToastContext";
 import Home from "./pages/Home";
 
-
+const Menu = lazy(() => import("./pages/Menu"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
               <Routes>
                 <Route element={<Layout />}>
                   <Route index element={<Home />} />
-
+                  <Route path="menu" element={<Menu />} />
                   <Route path="*" element={<NotFound />} />
                 </Route>
               </Routes>
