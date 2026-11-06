@@ -174,3 +174,4 @@ src/
 public/          favicon, Open Graph image, brand/ (supplied logo), images/ (photos go here)
 vite.config.ts   build, base path, SEO files (structured data, sitemap, robots, 404.html)
 ```
+# canvas-restaurant
