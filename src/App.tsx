@@ -7,6 +7,7 @@ import { ToastProvider } from "./context/ToastContext";
 import Home from "./pages/Home";
 
 const Menu = lazy(() => import("./pages/Menu"));
+const Gallery = lazy(() => import("./pages/Gallery"));
 const Reserve = lazy(() => import("./pages/Reserve"));
 const Cart = lazy(() => import("./pages/Cart"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -21,6 +22,7 @@ export default function App() {
                 <Route element={<Layout />}>
                   <Route index element={<Home />} />
                   <Route path="menu" element={<Menu />} />
+                  <Route path="gallery" element={<Gallery />} />
                   <Route path="reserve" element={<Reserve />} />
                   <Route path="cart" element={<Cart />} />
                   <Route path="*" element={<NotFound />} />
