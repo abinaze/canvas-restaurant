@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Sitemap is generated at build time from SITE_URL (see vite.config.ts).
