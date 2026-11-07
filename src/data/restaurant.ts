@@ -1,7 +1,7 @@
 /**
  * Central business information. Edit this file to update the website.
  * Every value that appears on the site (header, footer, contact page, SEO,
- * structured data, WhatsApp messages) is read from here.
+ * structured data, table-request messages) is read from here.
  */
 
 export interface OpeningHours {
@@ -39,9 +39,6 @@ export const restaurant = {
     e164Digits: "917356114909",
   },
 
-  /** Set to true only after the restaurant confirms it takes orders on WhatsApp. */
-  whatsappOrdersConfirmed: false,
-
   /**
    * Taken from the Google Maps link supplied for the restaurant
    * (https://maps.app.goo.gl/wH9RG4xwwE5j9SDu5). It matches the supplied
@@ -67,14 +64,6 @@ export const restaurant = {
   /** Indicative only, not a verified menu price. */
   priceRange: "₹400–₹800 per person",
 
-  /** Source-labelled snapshot supplied with the brief. Not a live rating. */
-  ratingSnapshot: {
-    score: 4.7,
-    outOf: 5,
-    reviewCount: 2520,
-    source: "Google Maps",
-    note: "Approximate figures supplied to us. This is a snapshot, not a live rating.",
-  },
 } as const;
 
 export const fullAddress = (): string => {

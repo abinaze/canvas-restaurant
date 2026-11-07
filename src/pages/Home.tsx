@@ -1,9 +1,9 @@
 import { usePageMeta } from "../hooks/usePageMeta";
 import { routes } from "../data/routes";
 import { Hero } from "../sections/Hero";
-import { Featured } from "../sections/Featured";
+import { Categories } from "../sections/Categories";
+import { DeliveryBand } from "../sections/DeliveryBand";
 import { Story } from "../sections/Story";
-import { MenuPreview } from "../sections/MenuPreview";
 import { GalleryPreview } from "../sections/GalleryPreview";
 import { ReviewsPreview } from "../sections/ReviewsPreview";
 import { ReserveBand } from "../sections/ReserveBand";
@@ -16,9 +16,9 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Featured />
+      <Categories />
+      <DeliveryBand />
       <Story />
-      <MenuPreview />
       <GalleryPreview />
       <ReviewsPreview />
       <ReserveBand />

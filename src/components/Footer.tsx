@@ -13,14 +13,14 @@ export function Footer() {
       <div className="tricolor" aria-hidden />
       <div className="wrap grid gap-12 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr_1fr]">
         <div>
-          <Logo tone="paper" />
+          <Logo tone="paper" className="items-start" />
           <p className="mt-5 max-w-sm text-[0.95rem] leading-relaxed text-[#cfc8b6]">{restaurant.description}</p>
         </div>
 
         <nav aria-label="Footer">
           <h2 className="font-sans text-sm font-semibold text-ochre">Explore</h2>
           <ul className="mt-3 grid gap-0.5">
-            {routes.filter((r) => r.inNav || r.path === "reserve").map((r) => (
+            {routes.filter((r) => r.inNav).map((r) => (
               <li key={r.path}><Link to={`/${r.path}`} className={link}>{r.navLabel}</Link></li>
             ))}
           </ul>
@@ -39,11 +39,11 @@ export function Footer() {
         </div>
 
         <div>
-          <h2 className="font-sans text-sm font-semibold text-ochre">Find us online</h2>
+          <h2 className="font-sans text-sm font-semibold text-ochre">Order and follow</h2>
           <ul className="mt-3 grid gap-0.5">
+            <li><a href={restaurant.links.zomato} target="_blank" rel="noopener noreferrer" className={link}><ExternalLink size={18} aria-hidden /> Order delivery on Zomato<span className="sr-only"> (opens in a new tab)</span></a></li>
             <li><a href={restaurant.links.instagram} target="_blank" rel="noopener noreferrer" className={link}><Instagram size={18} aria-hidden /> Instagram<span className="sr-only"> (opens in a new tab)</span></a></li>
             <li><a href={restaurant.links.facebook} target="_blank" rel="noopener noreferrer" className={link}><Facebook size={18} aria-hidden /> Facebook<span className="sr-only"> (opens in a new tab)</span></a></li>
-            <li><a href={restaurant.links.zomato} target="_blank" rel="noopener noreferrer" className={link}><ExternalLink size={18} aria-hidden /> Zomato<span className="sr-only"> (opens in a new tab)</span></a></li>
             <li><a href={restaurant.links.googleMaps} target="_blank" rel="noopener noreferrer" className={link}><MapPin size={18} aria-hidden /> Google Maps<span className="sr-only"> (opens in a new tab)</span></a></li>
           </ul>
         </div>
@@ -53,7 +53,7 @@ export function Footer() {
         <div className="wrap flex flex-col gap-2 py-6 text-[0.82rem] text-[#a8a190] md:flex-row md:justify-between">
           <p>© {year} {restaurant.name}. All rights reserved.</p>
           <p className="max-w-xl md:text-right">
-            This site does not take payments or confirm orders or tables. Enquiries are sent by WhatsApp and are confirmed only when the restaurant replies.
+            This site does not take orders or payments. Delivery orders are placed on Zomato, and a table is reserved only once the restaurant confirms it.
           </p>
         </div>
       </div>

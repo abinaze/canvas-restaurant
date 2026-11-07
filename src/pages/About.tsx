@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { routes } from "../data/routes";
 import { restaurant } from "../data/restaurant";
-import { Picture } from "../components/Picture";
+import { Photo } from "../components/Photo";
 
 const meta = routes.find((r) => r.path === "about")!;
 
@@ -16,14 +16,14 @@ export default function About() {
             <h1 className="h-display max-w-3xl">Italian food, made for lingering over</h1>
             <p className="lede mt-5">{restaurant.description}</p>
           </div>
-          <Picture id="about-hero" kind="facade" seed="about" alt="The Fort Kochi gable" tag className="arch mx-auto aspect-[3/4] w-full max-w-xs lg:mx-0 lg:ml-auto" />
+          <Photo name="exterior" className="arch mx-auto aspect-[3/4] w-full max-w-xs lg:mx-0 lg:ml-auto" />
         </div>
       </section>
 
       <section className="section">
         <div className="wrap grid gap-16">
           <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-            <Picture id="about-pizza" kind="pizza" seed="pizza-margarita" alt="Wood-fired pizza" tag className="aspect-[4/3] w-full rounded-[3px]" />
+            <Photo name="pizza" className="aspect-[4/3] w-full rounded-[3px]" />
             <div>
               <h2 className="h-section">Pizza from the wood fire</h2>
               <p className="mt-4 max-w-md text-[1.05rem] leading-relaxed">Pizza is at the heart of Canvas. The menu runs from a classic Margarita and 4 Cheese to Pizzaiolo, Calzone and seafood pizzas, all made in the wood-fired oven the restaurant is known for.</p>
@@ -31,7 +31,7 @@ export default function About() {
           </div>
 
           <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-            <div className="md:order-2"><Picture id="about-pasta" kind="pasta" seed="pasta-gorgonzola" alt="Fresh pasta" tag className="aspect-[4/3] w-full rounded-[3px]" /></div>
+            <div className="md:order-2"><Photo name="pasta" className="aspect-[4/3] w-full rounded-[3px]" /></div>
             <div>
               <h2 className="h-section">Pasta, prepared fresh</h2>
               <p className="mt-4 max-w-md text-[1.05rem] leading-relaxed">From Pomodoro and Aglio Olio to Bolognese, Gamberi and lasagne, the pasta side of the menu covers the Italian favourites, with gnocchi, tagliatelle, spaghetti, penne and fusilli among the shapes.</p>
@@ -39,7 +39,7 @@ export default function About() {
           </div>
 
           <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-            <Picture id="about-dessert" kind="tiramisu" seed="tiramisu" alt="Tiramisu" tag className="aspect-[4/3] w-full rounded-[3px]" />
+            <Photo name="tiramisu" className="aspect-[4/3] w-full rounded-[3px]" />
             <div>
               <h2 className="h-section">Seafood, desserts and coffee</h2>
               <p className="mt-4 max-w-md text-[1.05rem] leading-relaxed">Calamari Al Limone and Gambas À L’ail lead the seafood. Tiramisu, Panna Cotta, Chocolate Mousse and Semi Freddo close the meal, and there’s espresso, cappuccino and cold coffee to go with them.</p>

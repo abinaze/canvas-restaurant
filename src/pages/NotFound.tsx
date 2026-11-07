@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { NOT_FOUND_TITLE } from "../data/routes";
-import { Art } from "../components/Art";
+import { GableMark } from "../components/Logo";
 
 export default function NotFound() {
   usePageMeta(NOT_FOUND_TITLE, "That page doesn’t exist. Head back to the menu or the home page.", { noindex: true });
@@ -15,7 +15,7 @@ export default function NotFound() {
           <Link to="/menu" className="btn btn-outline">See the menu</Link>
         </div>
       </div>
-      <div className="arch mx-auto aspect-[3/4] w-full max-w-xs"><Art kind="facade" seed="404" className="h-full w-full" /></div>
+      <GableMark className="mx-auto w-full max-w-sm text-ink" />
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { MessageCircle, Phone } from "lucide-react";
+import { Photo } from "../components/Photo";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { routes } from "../data/routes";
 import { restaurant, telHref, hoursLines } from "../data/restaurant";
@@ -51,6 +52,7 @@ export default function Reserve() {
           <p className="mt-8 text-[0.95rem]"><span className="font-semibold">Open {hours.label.toLowerCase()}:</span> {hours.value}</p>
           <p className="mt-1 text-sm text-muted">{restaurant.hoursNote}</p>
           <a href={telHref} className="btn btn-ink mt-8"><Phone size={18} aria-hidden /> Call {restaurant.phone.display}</a>
+          <Photo name="interior" className="mt-10 hidden aspect-[4/3] w-full rounded-[3px] lg:block" />
         </div>
 
         <form onSubmit={onSubmit} noValidate className="grid gap-5 rounded-[4px] bg-linen p-6 md:p-8" aria-label="Table request">

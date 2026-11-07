@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MapPin } from "lucide-react";
 import { restaurant } from "../data/restaurant";
-import { Art } from "./Art";
 
 /**
  * Click-to-load map: no third-party request (and no cookies) until the visitor asks for it.
@@ -22,7 +21,7 @@ export function MapEmbed({ className = "" }: { className?: string }) {
         />
       ) : (
         <>
-          <Art kind="lane" seed="map" className="absolute inset-0 h-full w-full opacity-60" />
+          <div aria-hidden className="absolute inset-0 bg-[linear-gradient(135deg,var(--color-linen),#e3dccb)]" />
           <div className="absolute inset-0 grid place-items-center p-6 text-center">
             <div className="max-w-xs rounded-[3px] bg-paper/95 p-5 shadow">
               <MapPin className="mx-auto text-tomato" aria-hidden />

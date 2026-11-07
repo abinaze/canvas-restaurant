@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { routes } from "../data/routes";
 import { gallery, galleryCategories, type GalleryCategory } from "../data/gallery";
-import { Picture } from "../components/Picture";
+import { Photo } from "../components/Photo";
 import { Lightbox } from "../components/Lightbox";
 
 const meta = routes.find((r) => r.path === "gallery")!;
@@ -19,7 +19,7 @@ export default function Gallery() {
       <section className="on-ink bg-ink pb-12 pt-32 text-paper">
         <div className="wrap">
           <h1 className="h-display">Gallery</h1>
-          <p className="lede mt-4">Pizza, pasta, desserts and the room they’re served in. These are illustrations for now; official restaurant photographs will replace them as they’re added.</p>
+          <p className="lede mt-4">Pizza, pasta, desserts and the room they’re served in.</p>
         </div>
       </section>
 
@@ -40,7 +40,7 @@ export default function Gallery() {
             {entries.map((g, i) => (
               <li key={g.id} className="break-inside-avoid">
                 <button type="button" onClick={() => setIndex(i)} className="group block w-full overflow-hidden rounded-[3px] text-left" aria-label={`${g.caption}. Open larger view`}>
-                  <Picture id={g.id} kind={g.art} seed={g.seed} alt={g.caption} className={`${aspects[i % aspects.length]} w-full transition-transform duration-500 group-hover:scale-[1.03]`} />
+                  <Photo name={g.image} alt={g.caption} eager={i < 2} className={`${aspects[i % aspects.length]} w-full transition-transform duration-500 group-hover:scale-[1.03]`} />
                 </button>
                 <p className="mt-1.5 text-sm text-muted">{g.caption}</p>
               </li>

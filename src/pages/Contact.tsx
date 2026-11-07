@@ -13,7 +13,7 @@ export default function Contact() {
   const social = [
     { label: "Instagram", sub: restaurant.links.instagramHandle, href: restaurant.links.instagram, icon: Instagram },
     { label: "Facebook", sub: "Canvas Restaurant & Pizzeria", href: restaurant.links.facebook, icon: Facebook },
-    { label: "Zomato", sub: "Menu and delivery listing", href: restaurant.links.zomato, icon: ExternalLink },
+    { label: "Zomato", sub: "Order delivery", href: restaurant.links.zomato, icon: ExternalLink },
     { label: "Google Maps", sub: "Reviews and directions", href: restaurant.links.googleMaps, icon: MapPin },
   ];
   return (

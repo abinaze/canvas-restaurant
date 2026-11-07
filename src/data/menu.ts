@@ -1,25 +1,25 @@
 /**
  * The whole menu lives here. To update it:
  *  - add, rename or remove an object in `items`
- *  - set `price` (in rupees) only once the restaurant has confirmed it
+ *  - set `price` (in rupees) only once the restaurant has confirmed it; it then appears on the menu
  *  - add `description` only with text the restaurant has supplied
  *  - set `vegetarian: true` only when confirmed
  *
- * Items with no price show "Price on request". Nothing here is invented.
+ * Nothing here is invented. The site only displays the menu; orders are placed on Zomato.
  */
 import type { CategoryId, MenuCategory, MenuItem } from "../types";
 
 export const MENU_NOTE =
-  "Menu items and availability may change. Please contact the restaurant to confirm current availability and pricing.";
+  "Dishes and availability can change. Please check with the restaurant, or on Zomato, for current availability and prices.";
 
 export const categories: MenuCategory[] = [
-  { id: "pizza", name: "Pizza", blurb: "From the wood-fired oven" },
-  { id: "pasta", name: "Pasta", blurb: "Freshly prepared, made in house" },
-  { id: "salads", name: "Salads", blurb: "Light plates for the table" },
-  { id: "mains", name: "Main courses", blurb: "Meat and Italian classics" },
-  { id: "seafood", name: "Seafood", blurb: "From the grill and the pan" },
-  { id: "desserts", name: "Desserts", blurb: "To finish" },
-  { id: "coffee", name: "Coffee and drinks", blurb: "Espresso and more" },
+  { id: "pizza", name: "Pizza", blurb: "From the wood-fired oven", image: "pizza" },
+  { id: "pasta", name: "Pasta", blurb: "Freshly prepared, made in house", image: "pasta" },
+  { id: "salads", name: "Salads", blurb: "Light plates for the table", image: "salads" },
+  { id: "mains", name: "Main courses", blurb: "Meat and Italian classics", image: "mains" },
+  { id: "seafood", name: "Seafood", blurb: "From the grill and the pan", image: "seafood" },
+  { id: "desserts", name: "Desserts", blurb: "To finish", image: "desserts" },
+  { id: "coffee", name: "Coffee and drinks", blurb: "Espresso and more", image: "coffee" },
 ];
 
 const slug = (s: string): string =>
@@ -55,7 +55,6 @@ const items: MenuItem[] = [
     category: "mains",
     description:
       "200g tenderloin served with grilled vegetables, pepper mushroom sauce, and a choice of mashed potato, fries, or wedges.",
-    option: { id: "side", label: "Choose your side", choices: ["Mashed potato", "Fries", "Wedges"] },
   },
   ...make("seafood", ["Gambas À L'ail", "Calamari Al Limone"]),
   ...make("desserts", [
@@ -69,19 +68,11 @@ const items: MenuItem[] = [
 
 // Confirmed vegetarian by name on the menu ("Veg Lasagne"). Add more only once confirmed.
 const CONFIRMED_VEGETARIAN = new Set(["pasta-veg-lasagne"]);
-// Restaurant favourites shown on the home page.
-const FEATURED = new Set([
-  "pizza-pizza-manzo", "pizza-pizzaiolo", "desserts-panna-cotta",
-  "seafood-calamari-al-limone", "mains-beef-steak", "pasta-veg-lasagne",
-]);
 
 export const menuItems: MenuItem[] = items.map((i) => ({
   ...i,
   vegetarian: CONFIRMED_VEGETARIAN.has(i.id) ? true : i.vegetarian,
-  featured: FEATURED.has(i.id),
 }));
-
-export const featuredItems: MenuItem[] = [...FEATURED].map((id) => menuItems.find((i) => i.id === id)!);
 
 /**
  * Pasta choices are general information only. We have not verified that every

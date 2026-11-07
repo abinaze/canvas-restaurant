@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { Picture } from "../components/Picture";
+import { Photo } from "../components/Photo";
 import { restaurant } from "../data/restaurant";
 
 export function Story() {
   return (
     <section className="section bg-linen" aria-labelledby="story-title">
       <div className="wrap grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-        <Picture id="story" kind="facade" seed="story" alt="The Fort Kochi gable" tag className="arch mx-auto aspect-[3/4] w-full max-w-md" />
+        <Photo name="exterior" className="arch mx-auto aspect-[3/4] w-full max-w-md" />
         <div>
           <h2 id="story-title" className="h-section">Italian cooking, Fort Kochi’s way of spending an evening</h2>
           <div className="mt-6 grid max-w-2xl gap-4 text-[1.05rem] leading-relaxed">

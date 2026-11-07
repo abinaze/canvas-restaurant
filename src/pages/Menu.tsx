@@ -1,16 +1,16 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, X, Leaf, Info } from "lucide-react";
-import { categories, menuItems, MENU_NOTE, pastaShapes, getItem } from "../data/menu";
+import { ExternalLink, Info, Leaf, Search, X } from "lucide-react";
+import { categories, menuItems, MENU_NOTE, pastaShapes } from "../data/menu";
 import { routes } from "../data/routes";
+import { restaurant } from "../data/restaurant";
 import { usePageMeta } from "../hooks/usePageMeta";
-import { useRecentlyViewed } from "../hooks/useRecentlyViewed";
-import { MenuCard } from "../components/MenuCard";
-import { ItemDialog } from "../components/ItemDialog";
-import type { CategoryId, MenuItem } from "../types";
+import { Photo } from "../components/Photo";
+import { formatRupees } from "../utils/format";
+import type { CategoryId } from "../types";
 
 const meta = routes.find((r) => r.path === "menu")!;
-const fold = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const fold = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
 export default function Menu() {
   usePageMeta(meta.title, meta.description);
@@ -18,9 +18,6 @@ export default function Menu() {
   const category = (params.get("category") as CategoryId | null) ?? "all";
   const query = params.get("q") ?? "";
   const veg = params.get("veg") === "1";
-  const openId = params.get("item");
-  const { ids: recentIds, record, clear } = useRecentlyViewed();
-  const [lastOpened, setLastOpened] = useState<MenuItem | null>(null);
 
   const setParam = (key: string, value: string | null) =>
     setParams((p) => {
@@ -28,10 +25,6 @@ export default function Menu() {
       if (value) next.set(key, value); else next.delete(key);
       return next;
     }, { replace: true });
-
-  const openItem = (item: MenuItem) => { record(item.id); setLastOpened(item); setParam("item", item.id); };
-  const closeItem = () => setParam("item", null);
-  const dialogItem = openId ? (getItem(openId) ?? lastOpened) : null;
 
   const groups = useMemo(() => {
     const q = fold(query.trim());
@@ -45,24 +38,30 @@ export default function Menu() {
   }, [category, query, veg]);
 
   const total = groups.reduce((n, g) => n + g.items.length, 0);
-  const recent = recentIds.map((id) => getItem(id)).filter((i): i is MenuItem => Boolean(i));
   const vegCount = menuItems.filter((i) => i.vegetarian).length;
 
   return (
     <>
       <section className="bg-ink pb-12 pt-32 text-paper on-ink">
-        <div className="wrap">
-          <h1 className="h-display max-w-3xl">The menu</h1>
-          <p className="lede mt-4">Wood-fired pizza, pasta, salads, mains, seafood, desserts and coffee. Pick what you like and send us an enquiry on WhatsApp.</p>
-          <p className="mt-6 flex max-w-2xl items-start gap-2 rounded-[3px] border border-white/20 px-4 py-3 text-[0.92rem] text-[#e6e0d0]" role="note">
-            <Info size={18} className="mt-0.5 shrink-0 text-ochre" aria-hidden /> {MENU_NOTE}
-          </p>
+        <div className="wrap grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+          <div>
+            <h1 className="h-display">The menu</h1>
+            <p className="lede mt-4">Wood-fired pizza, pasta, salads, mains, seafood, desserts and coffee.</p>
+            <p className="mt-6 flex max-w-2xl items-start gap-2 rounded-[3px] border border-white/20 px-4 py-3 text-[0.92rem] text-[#e6e0d0]" role="note">
+              <Info size={18} className="mt-0.5 shrink-0 text-ochre" aria-hidden /> {MENU_NOTE}
+            </p>
+          </div>
+          <div className="lg:justify-self-end">
+            <a href={restaurant.links.zomato} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              Order delivery on Zomato<ExternalLink size={16} aria-hidden /><span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
         </div>
       </section>
 
       <div className="sticky top-[4.25rem] z-30 border-b border-line bg-paper/95 backdrop-blur">
         <div className="wrap flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between">
-          <div role="group" aria-label="Menu categories" className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 lg:mx-0 lg:px-0">
+          <div role="group" aria-label="Menu categories" className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0">
             <button type="button" className="chip" aria-pressed={category === "all"} onClick={() => setParam("category", null)}>All</button>
             {categories.map((c) => (
               <button key={c.id} type="button" className="chip" aria-pressed={category === c.id} onClick={() => setParam("category", c.id)}>
@@ -99,7 +98,7 @@ export default function Menu() {
 
         {groups.length === 0 ? (
           <div className="mx-auto max-w-md py-16 text-center">
-            <h2 className="font-display text-4xl">Nothing matches that</h2>
+            <h2 className="h-section">Nothing matches that</h2>
             <p className="mt-3 text-muted">
               {query ? `We couldn’t find “${query}”.` : "No dishes match these filters."} Try a different spelling or clear the filters.
             </p>
@@ -109,42 +108,44 @@ export default function Menu() {
           </div>
         ) : (
           <div className="grid gap-16">
-            {groups.map(({ category: c, items }) => (
+            {groups.map(({ category: c, items }, gi) => (
               <section key={c.id} aria-labelledby={`cat-${c.id}`}>
-                <div className="mb-6 flex items-baseline gap-4">
-                  <h2 id={`cat-${c.id}`} className="h-section">{c.name}</h2>
-                  <span className="leader" aria-hidden />
-                  <p className="text-sm text-muted">{c.blurb}</p>
+                <div className="relative mb-6 flex h-40 items-end overflow-hidden rounded-[3px] text-paper sm:h-48">
+                  <Photo name={c.image} decorative eager={gi === 0} className="!absolute inset-0" />
+                  <span aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgb(23_21_15/0.85),rgb(23_21_15/0.1)_75%)]" />
+                  <div className="relative flex w-full flex-wrap items-end justify-between gap-x-6 gap-y-1 p-4 sm:p-5">
+                    <h2 id={`cat-${c.id}`} className="h-section">{c.name}</h2>
+                    <p className="pb-1 text-[#e6e0d0]">{c.blurb}</p>
+                  </div>
                 </div>
                 {c.id === "pasta" && (
                   <p className="mb-6 max-w-2xl rounded-[3px] bg-linen px-4 py-3 text-[0.92rem]">
                     <strong>Pasta shapes:</strong> {pastaShapes.join(", ")}. Which shapes come with which sauce is not confirmed here, so please ask the restaurant.
                   </p>
                 )}
-                <div className="grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-                  {items.map((item) => <MenuCard key={item.id} item={item} onOpen={openItem} />)}
-                </div>
+                <ul className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+                  {items.map((item) => (
+                    <li key={item.id} className="border-b border-line py-3.5">
+                      <p className="flex items-baseline justify-between gap-3">
+                        <span className="text-[1.05rem] font-semibold">
+                          {item.name}
+                          {item.vegetarian && (
+                            <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-basil/10 px-2 py-0.5 align-middle text-xs font-semibold text-basil">
+                              <Leaf size={12} aria-hidden /> Veg
+                            </span>
+                          )}
+                        </span>
+                        {typeof item.price === "number" && <span className="shrink-0 text-sm">{formatRupees(item.price)}</span>}
+                      </p>
+                      {item.description && <p className="mt-1 text-[0.92rem] leading-snug text-muted">{item.description}</p>}
+                    </li>
+                  ))}
+                </ul>
               </section>
             ))}
           </div>
         )}
-
-        {recent.length > 0 && (
-          <section className="mt-20 border-t border-line pt-8" aria-labelledby="recent">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 id="recent" className="font-display text-3xl">Recently viewed</h2>
-              <button type="button" onClick={clear} className="link-underline text-sm text-muted">Clear</button>
-            </div>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {recent.map((i) => (
-                <li key={i.id}><button type="button" className="chip" onClick={() => openItem(i)}>{i.name}</button></li>
-              ))}
-            </ul>
-          </section>
-        )}
       </div>
-
-      <ItemDialog item={dialogItem} onClose={closeItem} />
     </>
   );
 }

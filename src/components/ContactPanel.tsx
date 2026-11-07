@@ -49,14 +49,14 @@ export function ContactPanel({ showEnquiry = true, headingLevel = 3 }: { showEnq
     <div className="grid gap-8">
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <H className="font-display text-2xl">Address</H>
+          <H className="h-sub">Address</H>
           <address className="mt-2 not-italic leading-relaxed">
             {restaurant.name}<br />{restaurant.address.street},<br />{restaurant.address.locality}, {restaurant.address.region} {restaurant.address.postalCode}<br />{restaurant.address.country}
           </address>
           <p className="mt-2 text-sm text-muted">Plus Code {restaurant.plusCode}</p>
         </div>
         <div>
-          <H className="font-display text-2xl">Opening hours</H>
+          <H className="h-sub">Opening hours</H>
           <ul className="mt-2">
             {hoursLines().map((h) => <li key={h.label}><span className="font-semibold">{h.label}:</span> {h.value}</li>)}
           </ul>

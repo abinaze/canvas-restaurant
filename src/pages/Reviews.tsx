@@ -8,19 +8,13 @@ const meta = routes.find((r) => r.path === "reviews")!;
 
 export default function Reviews() {
   usePageMeta(meta.title, meta.description);
-  const s = restaurant.ratingSnapshot;
   return (
     <>
       <section className="on-ink bg-ink pb-16 pt-32 text-paper">
-        <div className="wrap grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+        <div className="wrap">
           <div>
             <h1 className="h-display">What guests say</h1>
             <p className="lede mt-4">A summary of what guests tend to praise, and what some mention, so you know what to expect.</p>
-          </div>
-          <div>
-            <p className="font-display text-[5.5rem] leading-none">{s.score}<span className="text-3xl text-[#b9b2a0]"> / {s.outOf}</span></p>
-            <p className="mt-2 text-[#cfc8b6]">{s.source}, about {s.reviewCount.toLocaleString("en-IN")} reviews</p>
-            <p className="mt-1 text-sm text-[#a8a190]">{s.note}</p>
           </div>
         </div>
       </section>
@@ -31,7 +25,7 @@ export default function Reviews() {
           <ul className="mt-8 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
             {positiveThemes.map((t) => (
               <li key={t.id} className="border-t-2 border-basil pt-3">
-                <p className="font-display text-[1.8rem] leading-tight">{t.title}</p>
+                <p className="h-sub text-[1.6rem]">{t.title}</p>
                 <p className="mt-1 text-muted">{t.summary}</p>
               </li>
             ))}
@@ -46,7 +40,7 @@ export default function Reviews() {
           <ul className="mt-8 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
             {mixedThemes.map((t) => (
               <li key={t.id} className="border-t-2 border-ochre pt-3">
-                <p className="font-display text-[1.8rem] leading-tight">{t.title}</p>
+                <p className="h-sub text-[1.6rem]">{t.title}</p>
                 <p className="mt-1 text-muted">{t.summary}</p>
               </li>
             ))}

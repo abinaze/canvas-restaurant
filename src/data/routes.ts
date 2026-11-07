@@ -14,7 +14,7 @@ export const routes: RouteMeta[] = [
     inNav: true,
     title: "Canvas Restaurant & Pizzeria | Italian restaurant in Fort Kochi",
     description:
-      "Wood-fired pizza, homemade pasta and Italian classics in Fort Kochi. Browse the menu, send an order enquiry or request a table at Canvas Restaurant & Pizzeria.",
+      "Wood-fired pizza, homemade pasta and Italian classics in Fort Kochi. Browse the menu, order delivery on Zomato or request a table at Canvas Restaurant & Pizzeria.",
   },
   {
     path: "menu",
@@ -22,7 +22,7 @@ export const routes: RouteMeta[] = [
     inNav: true,
     title: "Menu | Pizza, pasta, seafood and desserts | Canvas Restaurant Fort Kochi",
     description:
-      "The full menu at Canvas Restaurant & Pizzeria, Fort Kochi: wood-fired pizza, pasta, salads, main courses, seafood, desserts and coffee. Search, filter and build an order enquiry.",
+      "The full menu at Canvas Restaurant & Pizzeria, Fort Kochi: wood-fired pizza, pasta, salads, main courses, seafood, desserts and coffee. Search and filter, then order delivery on Zomato or visit us.",
   },
   {
     path: "about",
@@ -56,20 +56,14 @@ export const routes: RouteMeta[] = [
   },
   {
     path: "reserve",
-    navLabel: "Reserve a table",
+    navLabel: "Reserve",
+    inNav: true,
     title: "Request a table | Canvas Restaurant & Pizzeria, Fort Kochi",
     description:
       "Send a table request to Canvas Restaurant & Pizzeria on WhatsApp, or call the restaurant. The restaurant confirms availability.",
   },
-  {
-    path: "cart",
-    navLabel: "Your order",
-    title: "Your order enquiry | Canvas Restaurant & Pizzeria",
-    description: "Review the dishes you picked and send an order enquiry to Canvas Restaurant & Pizzeria on WhatsApp.",
-  },
 ];
 
-/** Routes that should appear in the sitemap (the cart is personal, so it is left out). */
-export const sitemapPaths = routes.filter((r) => r.path !== "cart").map((r) => r.path);
+export const sitemapPaths = routes.map((r) => r.path);
 
 export const NOT_FOUND_TITLE = "Page not found | Canvas Restaurant & Pizzeria";

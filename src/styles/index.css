@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "@fontsource-variable/archivo/wdth.css";
-@import "@fontsource/instrument-serif/latin-400.css";
-@import "@fontsource/instrument-serif/latin-400-italic.css";
+@import "@fontsource/anton/latin-400.css";
 
 /*
   Canvas brand tokens. Palette comes from the supplied logo: ink black, paper white,
@@ -11,8 +10,8 @@
 @theme {
   --color-ink: #17150f;
   --color-ink-soft: #2a2720;
-  --color-paper: #faf8f3;
-  --color-linen: #f0eadc;
+  --color-paper: #fbfaf6;
+  --color-linen: #efebe0;
   --color-tomato: #c8321f;
   --color-tomato-deep: #a52615;
   --color-basil: #2f5d3a;
@@ -21,7 +20,7 @@
   --color-muted: #5f5a4e;
   --color-line: #ddd5c3;
 
-  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-display: "Anton", "Impact", "Arial Narrow Bold", sans-serif;
   --font-sans: "Archivo Variable", "Helvetica Neue", Arial, system-ui, sans-serif;
 
   --breakpoint-xs: 30rem;
@@ -44,8 +43,8 @@
   h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 400;
-    line-height: 1.04;
-    letter-spacing: -0.01em;
+    line-height: 1;
+    letter-spacing: 0.01em;
     text-wrap: balance;
   }
   p { text-wrap: pretty; }
@@ -86,18 +85,12 @@
   .section { padding-block: 4.5rem; }
   @media (min-width: 64rem) { .section { padding-block: 7rem; } }
 
-  /* Wordmark: condensed, heavy, like the logo */
-  .wordmark {
-    font-family: var(--font-sans);
-    font-weight: 800;
-    font-stretch: 68%;
-    letter-spacing: 0.01em;
-    line-height: 0.8;
-    text-transform: uppercase;
-  }
+  /* Wordmark: the heavy condensed capitals of the logo */
+  .wordmark { font-family: var(--font-display); letter-spacing: 0.01em; line-height: 0.85; text-transform: uppercase; }
 
-  .h-display { font-size: clamp(2.4rem, 5.4vw, 4.4rem); }
-  .h-section { font-size: clamp(2rem, 4vw, 3.25rem); }
+  .h-display { font-size: clamp(2.6rem, 6vw, 4.8rem); text-transform: uppercase; line-height: 0.98; }
+  .h-section { font-size: clamp(2.1rem, 4.2vw, 3.4rem); text-transform: uppercase; line-height: 0.98; }
+  .h-sub { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase; }
   .lede { font-size: 1.125rem; line-height: 1.65; color: var(--color-muted); max-width: 40rem; }
   .on-ink .lede { color: #cfc8b6; }
 
