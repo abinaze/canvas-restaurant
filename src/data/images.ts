@@ -1,28 +1,62 @@
 /**
- * Photo configuration. Until real photographs are added the site shows
- * clearly-labelled illustrations, never stock photos passed off as the restaurant's.
+ * Every picture on the website, in one place.
  *
- * To use a real photo: put the file in public/images/<folder>/ and add an entry
- * below, keyed by the menu item id (see src/data/menu.ts) or a gallery id
- * (see src/data/gallery.ts). No component needs editing.
+ * Each slot below is a file in src/assets/images/ with the same name as the slot:
+ * "pizza" is src/assets/images/pizza.png. To use your own photo, save it over that
+ * file (or add pizza.jpg / pizza.webp and delete pizza.png) and commit it. Nothing
+ * else needs editing. Until then the file holds a simple placeholder picture.
  *
- *   "pizza-pizza-manzo": { src: "images/pizzas/manzo.jpg", alt: "Pizza Manzo fresh from the oven" },
- *
- * Paths are relative to the site root; the base path is applied automatically.
- * Only set `official: true` for photos taken at, or supplied by, the restaurant.
+ * Tips: landscape photos about 1600 px wide, under about 400 KB, subject near the
+ * centre (photos are cropped to fit). Update the alt text below if the photo shows
+ * something different. Keep only ONE file per name.
  */
-export interface Photo {
-  src: string;
+export interface ImageSlot {
+  /** Describes the picture for screen readers. Update it when you replace the photo. */
   alt: string;
-  caption?: string;
-  /** true = taken at or supplied by Canvas. Anything else is labelled as a representative image. */
-  official?: boolean;
-  /** Optional smaller version for grids. */
-  thumb?: string;
-  width?: number;
-  height?: number;
 }
 
-export const photos: Record<string, Photo> = {
-  // "hero": { src: "images/restaurant/hero.jpg", alt: "...", official: true },
-};
+const slot = (alt: string): ImageSlot => ({ alt });
+
+export const IMAGES = {
+  // Page headers and story
+  hero: slot("The Canvas building on Vadathazha Lane, Fort Kochi"),
+  exterior: slot("The front of Canvas Restaurant & Pizzeria"),
+  interior: slot("Inside Canvas Restaurant & Pizzeria"),
+  outdoor: slot("Outdoor seating at Canvas on Vadathazha Lane"),
+
+  // Menu categories
+  pizza: slot("A pizza from the wood-fired oven"),
+  pasta: slot("A plate of pasta"),
+  salads: slot("A fresh salad"),
+  mains: slot("Beef steak with grilled vegetables"),
+  seafood: slot("Seafood from the pan"),
+  desserts: slot("Desserts"),
+  coffee: slot("A cup of coffee"),
+
+  // Gallery extras (the gallery also reuses the slots above)
+  "pizza-2": slot("Pizza with melted cheese"),
+  "pizza-3": slot("Another pizza from the menu"),
+  "pasta-2": slot("Gnocchi"),
+  lasagne: slot("Lasagne"),
+  tiramisu: slot("Tiramisu"),
+  "panna-cotta": slot("Panna cotta"),
+  mousse: slot("Chocolate mousse"),
+  "cold-coffee": slot("Cold coffee"),
+} as const satisfies Record<string, ImageSlot>;
+
+export type ImageName = keyof typeof IMAGES;
+
+const files = import.meta.glob<string>("../assets/images/*.{png,jpg,jpeg,webp,avif}", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
+
+const byName = new Map<string, string>();
+for (const [path, url] of Object.entries(files)) {
+  const name = path.split("/").pop()!.replace(/\.[^.]+$/, "");
+  byName.set(name, url);
+}
+
+/** URL of the picture for a slot, or undefined if its file is missing. */
+export const imageUrl = (name: ImageName): string | undefined => byName.get(name);
