@@ -1,68 +1,10 @@
 import { restaurant } from "../data/restaurant";
-import { formatRupees, formatClock, formatLongDate } from "./format";
-import type { OrderType } from "../types";
+import { formatClock, formatLongDate } from "./format";
 
 export const waLink = (message: string, digits: string = restaurant.phone.e164Digits): string =>
   `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 
 export const waChatLink = (digits: string = restaurant.phone.e164Digits): string => `https://wa.me/${digits}`;
-
-export interface OrderMessageLine {
-  name: string;
-  quantity: number;
-  option?: string;
-  price?: number;
-}
-
-export interface OrderMessageInput {
-  customerName: string;
-  customerPhone: string;
-  orderType: OrderType;
-  address?: string;
-  instructions?: string;
-  lines: OrderMessageLine[];
-}
-
-export const ORDER_TYPE_LABEL: Record<OrderType, string> = {
-  "dine-in": "Dine-in",
-  takeaway: "Takeaway",
-  delivery: "Delivery",
-};
-
-export function buildOrderMessage(input: OrderMessageInput): string {
-  const out: string[] = [];
-  out.push(`Hello ${restaurant.name}, I would like to enquire about this order.`);
-  out.push("");
-  out.push(`Name: ${input.customerName.trim()}`);
-  out.push(`Phone: ${input.customerPhone.trim()}`);
-  out.push(`Order type: ${ORDER_TYPE_LABEL[input.orderType]}`);
-  if (input.orderType === "delivery" && input.address?.trim()) out.push(`Delivery address: ${input.address.trim()}`);
-  out.push("");
-  out.push("Items:");
-  let priced = 0;
-  let allPriced = input.lines.length > 0;
-  for (const l of input.lines) {
-    const opt = l.option ? ` (${l.option})` : "";
-    if (typeof l.price === "number") {
-      priced += l.price * l.quantity;
-      out.push(`- ${l.quantity} x ${l.name}${opt} - ${formatRupees(l.price * l.quantity)}`);
-    } else {
-      allPriced = false;
-      out.push(`- ${l.quantity} x ${l.name}${opt}`);
-    }
-  }
-  if (allPriced) {
-    out.push("");
-    out.push(`Total: ${formatRupees(priced)}`);
-  }
-  if (input.instructions?.trim()) {
-    out.push("");
-    out.push(`Special instructions: ${input.instructions.trim()}`);
-  }
-  out.push("");
-  out.push("Please confirm availability, prices and timing. Thank you.");
-  return out.join("\n");
-}
 
 export interface ReservationInput {
   name: string;
