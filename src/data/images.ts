@@ -23,6 +23,11 @@ export const IMAGES = {
   exterior: slot("The front of Canvas Restaurant & Pizzeria"),
   interior: slot("Inside Canvas Restaurant & Pizzeria"),
   outdoor: slot("Outdoor seating at Canvas on Vadathazha Lane"),
+  "interior-2": slot("Tables and seating inside Canvas"),
+  "interior-3": slot("Inside Canvas Restaurant & Pizzeria"),
+  "interior-4": slot("Another corner inside Canvas"),
+  "exterior-2": slot("Vadathazha Lane outside Canvas in the evening"),
+  "exterior-3": slot("The entrance to Canvas Restaurant & Pizzeria"),
 
   // Menu categories
   pizza: slot("A pizza from the wood-fired oven"),

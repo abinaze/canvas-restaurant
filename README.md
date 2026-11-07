@@ -34,7 +34,7 @@ Every picture is a file in **`src/assets/images/`**, named after its slot:
 | File name | Where it appears |
 | --- | --- |
 | `hero.png` | Home page header (darkened on the left so the text stays readable) |
-| `exterior.png`, `interior.png`, `outdoor.png` | Story section, About, Reserve, Gallery |
+| `exterior.png`, `exterior-2.png`, `exterior-3.png`, `interior.png`, `interior-2.png`, `interior-3.png`, `interior-4.png`, `outdoor.png` | Story section, About, Reserve, Gallery |
 | `pizza.png`, `pasta.png`, `salads.png`, `mains.png`, `seafood.png`, `desserts.png`, `coffee.png` | Menu category tiles and menu section banners, Gallery |
 | `pizza-2.png`, `pizza-3.png`, `pasta-2.png`, `lasagne.png`, `tiramisu.png`, `panna-cotta.png`, `mousse.png`, `cold-coffee.png` | Gallery and About |
 
