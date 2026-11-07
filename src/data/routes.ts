@@ -44,7 +44,7 @@ export const routes: RouteMeta[] = [
     navLabel: "Reviews",
     inNav: true,
     title: "Reviews | What guests say about Canvas Restaurant, Fort Kochi",
-    description: "What guests often praise, and what some mention, about Canvas Restaurant & Pizzeria in Fort Kochi.",
+    description: "What guests often praise about Canvas Restaurant & Pizzeria in Fort Kochi.",
   },
   {
     path: "contact",

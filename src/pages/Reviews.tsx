@@ -2,7 +2,7 @@ import { ExternalLink } from "lucide-react";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { routes } from "../data/routes";
 import { restaurant } from "../data/restaurant";
-import { positiveThemes, mixedThemes, quotes } from "../data/reviews";
+import { positiveThemes, quotes } from "../data/reviews";
 
 const meta = routes.find((r) => r.path === "reviews")!;
 
@@ -14,7 +14,7 @@ export default function Reviews() {
         <div className="wrap">
           <div>
             <h1 className="h-display">What guests say</h1>
-            <p className="lede mt-4">A summary of what guests tend to praise, and what some mention, so you know what to expect.</p>
+            <p className="lede mt-4">What guests tend to praise most.</p>
           </div>
         </div>
       </section>
@@ -25,21 +25,6 @@ export default function Reviews() {
           <ul className="mt-8 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
             {positiveThemes.map((t) => (
               <li key={t.id} className="border-t-2 border-basil pt-3">
-                <p className="h-sub text-[1.6rem]">{t.title}</p>
-                <p className="mt-1 text-muted">{t.summary}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="section bg-linen" aria-labelledby="mixed">
-        <div className="wrap">
-          <h2 id="mixed" className="h-section">Worth knowing</h2>
-          <p className="lede mt-3">No restaurant suits everyone. These are the things some guests have mentioned.</p>
-          <ul className="mt-8 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-            {mixedThemes.map((t) => (
-              <li key={t.id} className="border-t-2 border-ochre pt-3">
                 <p className="h-sub text-[1.6rem]">{t.title}</p>
                 <p className="mt-1 text-muted">{t.summary}</p>
               </li>
