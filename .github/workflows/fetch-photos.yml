@@ -1,0 +1,37 @@
+name: Fetch stock photos
+
+# Manual only. Downloads generic stock food photos from Pexels into a review branch.
+# They are stand-ins: replace them with the restaurant's own photographs when you have them.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Download photos
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: node scripts/fetch-photos.mjs
+      - name: Push a review branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain src/assets/images)" ]; then echo "Nothing changed."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b stock-photos
+          git add src/assets/images
+          git commit -m "Add stock food photos as stand-ins"
+          git push --force origin stock-photos
+          gh pr create --base main --head stock-photos --title "Stock food photos (stand-ins)" \
+            --body "Generic Pexels photos, not Canvas's own dishes. Review, keep the ones you like, and replace with real photos when available. Credits are in src/assets/images/CREDITS.md." \
+            || echo "Branch pushed. Open a pull request from stock-photos to main on GitHub."
