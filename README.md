@@ -22,8 +22,8 @@ The site does **not** take orders or payments. Delivery orders are placed on Zom
 - **Home**: full-screen hero, menu categories as photo tiles, Zomato delivery band, story, gallery preview, what guests like, table-request band, location.
 - **Menu** (58 dishes, 7 categories): category tabs, accent-insensitive search, vegetarian filter, shareable links such as `/menu?category=pizza`. Browse only; no cart.
 - **Reserve**: form with validation against opening hours, then a prepared WhatsApp message plus click-to-call.
-- **Gallery** (lightbox with arrow keys), **About**, **Reviews** (themes only, with a link to Google Maps), **Contact** (click-to-load map, directions), custom **404**.
-- SEO: per-page titles and descriptions, canonical URLs, Open Graph tags, Schema.org `Restaurant` data, sitemap, robots.txt. Accessibility: skip link, visible focus, native dialogs, labelled forms, reduced-motion support, AA colour contrast. No analytics or tracking.
+- **Gallery** (lightbox with arrow keys), **About**, **Reviews** (themes only, with a link to Google Maps), **Contact** (Google map that loads as you scroll to it, directions), custom **404**.
+- SEO: per-page titles and descriptions, canonical URLs, Open Graph tags, Schema.org `Restaurant` data, sitemap, robots.txt. Accessibility: skip link, visible focus, native dialogs, labelled forms, reduced-motion support, AA colour contrast. No analytics or tracking of its own; the only third-party content is the Google map, which loads from Google.
 
 There are no star ratings, review scores or invented claims anywhere on the site.
 
