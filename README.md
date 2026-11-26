@@ -29,16 +29,30 @@ There are no star ratings, review scores or invented claims anywhere on the site
 
 ## Change the pictures
 
-Every picture is a file in **`src/assets/images/`**, named after its slot:
+Every picture is a file in **`src/assets/images/`**, named after its slot. The full list of slots, with their descriptions, is in `src/data/images.ts`.
 
-| File name | Where it appears |
+| Slot names | Where they appear |
 | --- | --- |
-| `hero.png` | Home page header (darkened on the left so the text stays readable) |
-| `exterior.png`, `exterior-2.png`, `exterior-3.png`, `interior.png`, `interior-2.png`, `interior-3.png`, `interior-4.png`, `outdoor.png` | Story section, About, Reserve, Gallery |
-| `pizza.png`, `pasta.png`, `salads.png`, `mains.png`, `seafood.png`, `desserts.png`, `coffee.png` | Menu category tiles and menu section banners, Gallery |
-| `pizza-2.png`, `pizza-3.png`, `pasta-2.png`, `lasagne.png`, `tiramisu.png`, `panna-cotta.png`, `mousse.png`, `cold-coffee.png` | Gallery and About |
+| `hero` | Home page header (darkened on the left so the text stays readable) |
+| `exterior`, `exterior-2`, `exterior-3`, `interior`, `interior-2`, `interior-3`, `interior-4`, `outdoor`, `outdoor-1`, `outdoor-2`, `patio-evening`, `oven`, `oven-1` | Story section, About, Reserve, Gallery |
+| `pizza`, `pasta`, `salads`, `mains`, `seafood`, `desserts`, `drinks`, `calamari`, `lasagne-maison`, `mushroom-risotto` | Menu category tiles and banners, Gallery |
+| Dish pictures such as `pizza-3`, `pasta-2`, `lasagne`, `gambas`, `sea-bass`, `french-fries`, `greek-salad`, `burrata`, `panna-cotta`, `mousse`, `tiramisu`, `semifreddo`, `cappuccino` | Beside the dish on the menu page (where `image` is set in `src/data/menu.ts`) and in the Gallery |
+| Everything else in `images.ts` | Gallery only |
 
-**To use your own photo:** save it over the file with the same name and commit it. That is all.
+The printed menu pages are separate: **`src/assets/menu/`** holds `menu-pizza-veg`, `menu-pizza-nonveg`, `menu-antipasti-salads`, `menu-al-forno`, `menu-seafood`, `menu-desserts` and `menu-drinks`. They appear at the bottom of the menu page and open in a viewer.
+
+### Easiest way: import a folder
+
+Put your pictures in one folder and run (needs Python 3 and `pip install pillow`):
+
+```bash
+python scripts/import-images.py "$HOME/Downloads/New folder"            # copies, shrinks and names them
+python scripts/import-images.py "$HOME/Downloads/New folder" --dry-run  # only shows what it would do
+```
+
+It matches each file to a slot **by its name** (`oven.png` goes to `oven`, `Greek salad.png` to `greek-salad`, any file starting `Menu-` to a menu page), converts it to a smaller `.jpg`, replaces any older file for that slot and lists anything it could not match. To teach it a new file name, add a line to `ALIASES` at the top of the script. Slots in `PROTECTED` (`pizza`, `interior`, `exterior-3`) are never touched, because those pictures are already final.
+
+### By hand
 
 ```bash
 cp ~/Pictures/my-pizza.jpg src/assets/images/pizza.jpg   # a .jpg, .webp or .png all work
@@ -46,11 +60,11 @@ rm src/assets/images/pizza.png                            # keep ONE file per na
 git add -A && git commit -m "Add pizza photo" && git push
 ```
 
-- Use landscape photos about 1600 px wide and under about 400 KB; they are cropped to fit, so keep the subject near the centre.
-- The files that ship in the repo are simple **placeholder pictures** so the layout is never empty. Replace them.
-- Picture descriptions (for screen readers) and the list of slots are in `src/data/images.ts`. Update the description if your photo shows something different.
+- Use photos about 1200 to 1600 px wide and under about 400 KB; they are cropped to fit, so keep the subject near the centre.
+- A slot with no file just shows an empty frame (and is left out of the gallery). It never breaks the build.
+- Update the picture description in `src/data/images.ts` if your photo shows something different.
 - To change gallery captions or the gallery order, edit `src/data/gallery.ts`.
-- `npm test` fails if a slot has no file, if two files share a name, or if a file is not in the list, so mistakes are caught before deploying.
+- `npm test` fails if two files share a name or if a file is not in the list, so mistakes are caught before deploying.
 
 ### Optional: download stock photos automatically
 
@@ -95,7 +109,7 @@ Everything about the business is in **`src/data/restaurant.ts`**: name, descript
 
 ## Update the menu
 
-All in **`src/data/menu.ts`**. Add or remove a dish, set `price` (rupees) only when the restaurant has confirmed it (it then appears next to the dish), add `description` only with text the restaurant supplied, and add the dish id to `CONFIRMED_VEGETARIAN` only when confirmed. Calamari Rings, Trio Di Pasta, Bruschetta and French Fries (`unverifiedPopularItems`) are hidden until availability is confirmed.
+All in **`src/data/menu.ts`**. Dishes, descriptions and prices are copied from the restaurant's printed menu cards (prices are printed as inclusive of taxes). Add or remove a dish, set `price` (rupees) or `options` (several sizes), set `image` to a picture slot only when that picture really shows the dish, and `vegetarian: true` only where the menu says so. Pasta has no prices yet because that menu card has not been supplied. Trio Di Pasta (`unverifiedPopularItems`) is hidden until it is confirmed.
 
 ## Logo files
 
@@ -112,7 +126,8 @@ The gable was traced from your logo; the lettering is re-typeset in a matching h
 - [ ] **Phone number.** The brief gave +91 73561 14909; a public listing shows +91 94478 80111. Confirm which is answered and which is on WhatsApp.
 - [ ] **Map location.** The site uses the location of your Google Maps link (9.9630543, 76.2411871). The coordinates in the original brief were about 500 m away. Confirm.
 - [ ] **Opening hours** (shown as 12 noon to 12 midnight daily).
-- [ ] **Prices, descriptions, vegetarian status** and which dishes are served.
+- [ ] **Prices and dishes.** Everything except pasta comes from the printed menu cards; check it is still current. Send the pasta card to add its prices. The pizza card prints *Caprese* twice (the first copy has the aubergine and zucchini description of *Alle Verdure*); only the mozzarella-and-rocket one is shown, so confirm that. Zomato prices may differ from the in-restaurant prices.
+- [ ] **Dish pictures.** They are matched to dishes by file name only; check each one really shows that dish.
 - [ ] **Delivery:** the site only links to Zomato. Confirm that is how delivery works.
 - [ ] **Photographs:** replace the placeholders (see above).
 - [ ] **Table requests by WhatsApp:** does the restaurant want them there?
