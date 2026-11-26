@@ -9,11 +9,23 @@ describe("menu data", () => {
     for (const i of menuItems) expect(cats.has(i.category), i.id).toBe(true);
   });
 
-  it("does not invent prices", () => {
-    for (const i of menuItems) expect(i.price, i.id).toBeUndefined();
+  it("prices are whole positive rupees, and a dish uses either one price or several options", () => {
+    for (const i of menuItems) {
+      if (i.price !== undefined) {
+        expect(Number.isInteger(i.price) && i.price > 0, `${i.id} price`).toBe(true);
+        expect(i.options, `${i.id} has both price and options`).toBeUndefined();
+      }
+      for (const o of i.options ?? []) expect(Number.isInteger(o.price) && o.price > 0 && o.label.length > 0, `${i.id} option`).toBe(true);
+    }
   });
 
   it("every category has dishes", () => {
     for (const c of categories) expect(menuItems.some((i) => i.category === c.id), c.id).toBe(true);
+  });
+
+  it("only vegetarian pizzas and confirmed dishes are marked vegetarian", () => {
+    for (const i of menuItems.filter((m) => m.vegetarian)) {
+      expect(i.category === "pizza" || i.id === "forno-veg-lasagne", i.id).toBe(true);
+    }
   });
 });

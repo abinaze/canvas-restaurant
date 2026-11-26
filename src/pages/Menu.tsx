@@ -6,11 +6,28 @@ import { routes } from "../data/routes";
 import { restaurant } from "../data/restaurant";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { Photo } from "../components/Photo";
+import { MenuCards } from "../components/MenuCards";
+import { hasImage } from "../data/images";
+import { menuCards } from "../data/menuCards";
 import { formatRupees } from "../utils/format";
-import type { CategoryId } from "../types";
+import type { CategoryId, MenuItem } from "../types";
 
 const meta = routes.find((r) => r.path === "menu")!;
 const fold = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+/** "₹460", or "Glass ₹160 · Carafe ₹220" when a dish has several sizes. */
+function Price({ item }: { item: MenuItem }) {
+  if (item.options?.length) {
+    return (
+      <span className="block text-sm text-ink">
+        {item.options.map((o, i) => (
+          <span key={o.label}>{i > 0 && <span aria-hidden> · </span>}{o.label} {formatRupees(o.price)}</span>
+        ))}
+      </span>
+    );
+  }
+  return typeof item.price === "number" ? <span className="shrink-0 text-sm">{formatRupees(item.price)}</span> : null;
+}
 
 export default function Menu() {
   usePageMeta(meta.title, meta.description);
@@ -46,15 +63,16 @@ export default function Menu() {
         <div className="wrap grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
           <div>
             <h1 className="h-display">The menu</h1>
-            <p className="lede mt-4">Wood-fired pizza, pasta, salads, mains, seafood, desserts and coffee.</p>
+            <p className="lede mt-4">Wood-fired pizza, antipasti, salads, pasta, risotto, mains, seafood, desserts and drinks.</p>
             <p className="mt-6 flex max-w-2xl items-start gap-2 rounded-[3px] border border-white/20 px-4 py-3 text-[0.92rem] text-[#e6e0d0]" role="note">
               <Info size={18} className="mt-0.5 shrink-0 text-ochre" aria-hidden /> {MENU_NOTE}
             </p>
           </div>
-          <div className="lg:justify-self-end">
+          <div className="flex flex-wrap gap-3 lg:justify-self-end">
             <a href={restaurant.links.zomato} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
               Order delivery on Zomato<ExternalLink size={16} aria-hidden /><span className="sr-only"> (opens in a new tab)</span>
             </a>
+            {menuCards.length > 0 && <a href="#menu-cards" className="btn btn-outline">See the printed menu</a>}
           </div>
         </div>
       </section>
@@ -83,7 +101,7 @@ export default function Menu() {
                 autoComplete="off"
               />
             </div>
-            <button type="button" className="chip" aria-pressed={veg} onClick={() => setParam("veg", veg ? null : "1")} title="Shows only dishes the restaurant has confirmed as vegetarian">
+            <button type="button" className="chip" aria-pressed={veg} onClick={() => setParam("veg", veg ? null : "1")} title="Shows only dishes marked vegetarian on the restaurant’s menu">
               <Leaf size={15} aria-hidden /> Vegetarian
             </button>
           </div>
@@ -93,7 +111,7 @@ export default function Menu() {
       <div className="wrap section !pt-10">
         <p className="mb-8 text-sm text-muted" role="status" aria-live="polite">
           {total} {total === 1 ? "dish" : "dishes"}
-          {veg && ` marked vegetarian. Only ${vegCount} ${vegCount === 1 ? "dish is" : "dishes are"} confirmed so far; ask the restaurant about others.`}
+          {veg && ` marked vegetarian on the menu (${vegCount} in all). Ask the restaurant about other dishes.`}
         </p>
 
         {groups.length === 0 ? (
@@ -125,19 +143,28 @@ export default function Menu() {
                 )}
                 <ul className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
                   {items.map((item) => (
-                    <li key={item.id} className="border-b border-line py-3.5">
-                      <p className="flex items-baseline justify-between gap-3">
-                        <span className="text-[1.05rem] font-semibold">
-                          {item.name}
-                          {item.vegetarian && (
-                            <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-basil/10 px-2 py-0.5 align-middle text-xs font-semibold text-basil">
-                              <Leaf size={12} aria-hidden /> Veg
-                            </span>
-                          )}
-                        </span>
-                        {typeof item.price === "number" && <span className="shrink-0 text-sm">{formatRupees(item.price)}</span>}
-                      </p>
-                      {item.description && <p className="mt-1 text-[0.92rem] leading-snug text-muted">{item.description}</p>}
+                    <li key={item.id} className="flex gap-3 border-b border-line py-3.5">
+                      {item.image && hasImage(item.image) && (
+                        <Photo name={item.image} alt={item.name} className="h-16 w-16 shrink-0 rounded-[3px] sm:h-[4.5rem] sm:w-[4.5rem]" />
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="flex items-baseline justify-between gap-3">
+                          <span className="text-[1.05rem] font-semibold">
+                            {item.name}
+                            {item.vegetarian && (
+                              <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-basil/10 px-2 py-0.5 align-middle text-xs font-semibold text-basil">
+                                <Leaf size={12} aria-hidden /> Veg
+                              </span>
+                            )}
+                            {item.veganOption && (
+                              <span className="ml-2 inline-block rounded-full border border-basil/40 px-2 py-0.5 align-middle text-xs font-semibold text-basil">Vegan option</span>
+                            )}
+                          </span>
+                          {!item.options && <Price item={item} />}
+                        </p>
+                        {item.options && <p className="mt-0.5"><Price item={item} /></p>}
+                        {item.description && <p className="mt-1 text-[0.92rem] leading-snug text-muted">{item.description}</p>}
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -146,6 +173,8 @@ export default function Menu() {
           </div>
         )}
       </div>
+
+      <MenuCards />
     </>
   );
 }

@@ -22,7 +22,7 @@ export const routes: RouteMeta[] = [
     inNav: true,
     title: "Menu | Pizza, pasta, seafood and desserts | Canvas Restaurant Fort Kochi",
     description:
-      "The full menu at Canvas Restaurant & Pizzeria, Fort Kochi: wood-fired pizza, pasta, salads, main courses, seafood, desserts and coffee. Search and filter, then order delivery on Zomato or visit us.",
+      "The full menu at Canvas Restaurant & Pizzeria, Fort Kochi: wood-fired pizza, pasta, salads, main courses, seafood, desserts and drinks, with prices. Search and filter, then order delivery on Zomato or visit us.",
   },
   {
     path: "about",

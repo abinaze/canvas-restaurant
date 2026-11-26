@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import { categories, menuItems } from "../data/menu";
 import { Photo } from "../components/Photo";
 
-// Mobile: pizza spans the row, then pairs. Desktop: pizza is a 2x2 lead, desserts and coffee span two columns.
+// Ten tiles fill a 4-column grid exactly (16 cells): pizza is a 2x2 lead; seafood, desserts and drinks span two columns.
+// On a phone: pizza and drinks take the full row, the rest are pairs.
 const layout: Record<string, string> = {
   pizza: "col-span-2 md:row-span-2",
+  seafood: "md:col-span-2",
   desserts: "md:col-span-2",
-  coffee: "md:col-span-2",
+  drinks: "col-span-2",
 };
 
 export function Categories() {
